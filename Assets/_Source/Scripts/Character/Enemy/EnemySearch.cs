@@ -12,24 +12,33 @@ public class EnemySearch : MonoBehaviour
     [SerializeField, Range(1, 50)] private float _viewRadius = 10f;
     private readonly WaitForSeconds Delay = new(.5f);
     private bool _isViewPlayer;
-    private void Start()
+    public bool IsViewPlayer => _isViewPlayer;
+    private void OnEnable()
     {
-        Game.Action.OnEnter += Action_OnEnter;
-        Game.Action.OnExit += Release;
+        Game.Action.OnLose += Release;
         Game.Action.OnPause += Action_OnPause;
+
+        Activate();
+    }
+    private void OnDisable()
+    {
+        Game.Action.OnLose -= Release;
+        Game.Action.OnPause -= Action_OnPause;
+
+        Release();
     }
 
-    private void Action_OnEnter()
+    private void Activate()
     {
         Release();
-
         _coroutine = StartCoroutine(SearchProcessCoroutine());
     }
+
     private void Action_OnPause(bool onPause)
     {
         Release();
 
-        if (!onPause) Action_OnEnter();
+        if (!onPause) Activate();
     }
     private IEnumerator SearchProcessCoroutine()
     {

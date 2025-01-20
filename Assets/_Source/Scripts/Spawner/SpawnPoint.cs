@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    [SerializeField] private bool _isUsed = false;
-    
     public event Action<SpawnPoint, bool> OnUsedPoint;
 
+    private bool _isUsed = false;
     public bool IsUsed 
     {
         get => _isUsed;
