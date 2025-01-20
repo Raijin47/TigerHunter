@@ -15,7 +15,7 @@ public class PageMenu : PanelBase
         _sequence.SetDelay(_delay).
             Append(_canvas.DOFade(1, _delay)).
 
-            //animation
+
 
             OnComplete(OnShowComplated);
     }

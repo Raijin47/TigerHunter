@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PigController : MonoBehaviour
+public class PigController : EnemyBase
 {
-    // Start is called before the first frame update
-    void Start()
+    private StatePanic _statePanic;
+
+    public override void Init()
     {
-        
+        base.Init();
+
+        _statePanic = new(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Action_OnPlayerSearch(bool value)
     {
-        
+        ChangeState(value ? _statePanic : _stateIdle);
     }
 }

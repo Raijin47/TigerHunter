@@ -6,11 +6,11 @@ public class StateAttack : IState
 {
     public event Action<IState> OnCannotAttack;
 
-    private readonly EnemyBase Enemy;
+    private readonly OrcConroller Enemy;
     private readonly WaitForSeconds IntervalAttack = new(1.5f);
     private const float _attackDistance = 2.5f;
 
-    public StateAttack(EnemyBase enemy) => Enemy = enemy;
+    public StateAttack(OrcConroller enemy) => Enemy = enemy;
     public void Enter()
     {
         Enemy.Animator.SetFloat("Velocity", 0);

@@ -13,7 +13,7 @@ public class PageGame : PanelBase
         _sequence.SetDelay(_delay).
             Append(_canvas.DOFade(1, _delay)).
 
-            //animation
+
 
             OnComplete(OnShowComplated);
     }
@@ -24,5 +24,11 @@ public class PageGame : PanelBase
 
         Game.Action.OnEnter += Enter;
         Game.Action.OnExit += Exit;
+    }
+
+    protected override void OnShowComplated()
+    {
+        base.OnShowComplated();
+        Game.Action.SendStart();
     }
 }

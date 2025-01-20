@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class OrcConroller : MonoBehaviour
+public class OrcConroller : EnemyBase
 {
-    // Start is called before the first frame update
-    void Start()
+    private StatePursuit _statePursuit;
+    private StateAttack _stateAttack;
+
+    public StateAttack StateAttack => _stateAttack;
+    public StatePursuit StatePursuit => _statePursuit;
+
+    public override void Init()
     {
-        
+        base.Init();
+
+        _statePursuit = new(this);
+        _stateAttack = new(this);
+
+        _statePursuit.OnCanAttack += ChangeState;
+        _stateAttack.OnCannotAttack += ChangeState;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Action_OnPlayerSearch(bool value)
     {
-        
+        ChangeState(value ? _statePursuit : _stateIdle);
     }
 }

@@ -9,14 +9,14 @@ public class EnemySearch : MonoBehaviour
     [SerializeField] private LayerMask _layer;
 
     private Coroutine _coroutine;
-
-    private const float _checkRaduis = 20f;
+    [SerializeField, Range(1, 50)] private float _viewRadius = 10f;
     private readonly WaitForSeconds Delay = new(.5f);
     private bool _isViewPlayer;
     private void Start()
     {
         Game.Action.OnEnter += Action_OnEnter;
         Game.Action.OnExit += Release;
+        Game.Action.OnPause += Action_OnPause;
     }
 
     private void Action_OnEnter()
@@ -25,14 +25,19 @@ public class EnemySearch : MonoBehaviour
 
         _coroutine = StartCoroutine(SearchProcessCoroutine());
     }
+    private void Action_OnPause(bool onPause)
+    {
+        Release();
 
+        if (!onPause) Action_OnEnter();
+    }
     private IEnumerator SearchProcessCoroutine()
     {
         while (true)
         {
             if(_isViewPlayer)
             {
-                if (!Physics.CheckSphere(transform.position, _checkRaduis, _layer))
+                if (!Physics.CheckSphere(transform.position, _viewRadius, _layer))
                 {
                     _isViewPlayer = false;
                     OnPlayerFound?.Invoke(_isViewPlayer);
@@ -40,7 +45,7 @@ public class EnemySearch : MonoBehaviour
             }
             else
             {
-                if (Physics.CheckSphere(transform.position, _checkRaduis, _layer))
+                if (Physics.CheckSphere(transform.position, _viewRadius, _layer))
                 {
                     _isViewPlayer = true;
                     OnPlayerFound?.Invoke(_isViewPlayer);

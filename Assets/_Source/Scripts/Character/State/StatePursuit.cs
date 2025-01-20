@@ -6,12 +6,12 @@ public class StatePursuit : IState
 {
     public event Action<IState> OnCanAttack;
 
-    private readonly EnemyBase Enemy;
+    private readonly OrcConroller Enemy;
 
     private const float _speed = 3f;
     private const float _attackDistance = 2.5f;
 
-    public StatePursuit(EnemyBase enemy) => Enemy = enemy;
+    public StatePursuit(OrcConroller enemy) => Enemy = enemy;
 
     public void Enter()
     {

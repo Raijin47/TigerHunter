@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 
 public class StatePanic : IState
 {
@@ -6,7 +7,7 @@ public class StatePanic : IState
 
     private const float _distance = 10f;
     private const float _speed = 3f;
-
+    private readonly WaitForSeconds Interval = new(.5f);
     public StatePanic(EnemyBase enemy) => Enemy = enemy;
 
     public void Enter()
@@ -22,7 +23,7 @@ public class StatePanic : IState
         {
             Enemy.Agent.destination = (Enemy.Transform.position - Game.Locator.Player.transform.position) * _distance;
 
-            yield return null;
+            yield return Interval;
         }
     }
 }
