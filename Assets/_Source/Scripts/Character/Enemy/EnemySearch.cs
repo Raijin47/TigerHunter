@@ -72,4 +72,10 @@ public class EnemySearch : MonoBehaviour
         StopCoroutine(_coroutine);
         _coroutine = null;
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new(0, 0, 1, 0.3f);
+        Gizmos.DrawSphere(transform.position, _viewRadius);
+    }
 }

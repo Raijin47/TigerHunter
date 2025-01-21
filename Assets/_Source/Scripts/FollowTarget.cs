@@ -12,5 +12,8 @@ public class FollowTarget : MonoBehaviour
     {
         Vector3 targetPosition = Vector3.Lerp(_transform.position, _target.position, Time.deltaTime * _followSpeed);
         _transform.position = targetPosition;
+
+        //Quaternion targetRotation = Quaternion.Lerp(_transform.rotation, _target.rotation, Time.deltaTime * _followSpeed);
+        //_transform.rotation = targetRotation;
     }
 }

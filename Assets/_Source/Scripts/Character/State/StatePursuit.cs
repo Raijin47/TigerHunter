@@ -9,7 +9,7 @@ public class StatePursuit : IState
     private readonly EnemyBase Enemy;
 
     private const float _speed = 3f;
-    private const float _attackDistance = 2.5f;
+    private const float _attackDistance = 3f;
 
     public StatePursuit(EnemyBase enemy) => Enemy = enemy;
 

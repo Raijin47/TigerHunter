@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlayerMovement
 {
     [SerializeField, Range(1, 10)] private float _moveSpeed;
-    [SerializeField, Range(1, 10)] private float _rotateSpeed;
+    [SerializeField, Range(0.1f, 10)] private float _rotateSpeed;
 
     private Rigidbody _rigidbody;
 
     public Vector3 MovementDirection { private get; set; }
+    public Vector3 RotateDirection { private get; set; }
 
     public void Init(Rigidbody rb) => _rigidbody = rb;
 
@@ -21,9 +22,9 @@ public class PlayerMovement
 
     public void Rotate()
     {
-        if (MovementDirection == Vector3.zero) return;
+        if (RotateDirection == Vector3.zero) return;
 
-        Quaternion targetLock = Quaternion.LookRotation(MovementDirection);
+        Quaternion targetLock = Quaternion.LookRotation(RotateDirection);
         Quaternion targetRotation = Quaternion.Slerp(_rigidbody.rotation, targetLock, Time.fixedDeltaTime * _rotateSpeed);
 
         _rigidbody.MoveRotation(targetRotation);

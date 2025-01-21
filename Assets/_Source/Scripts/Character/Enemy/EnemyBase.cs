@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyBase : PoolMember
 {
+    public event Action<int> OnTakeDamage;
+
     #region Component
     [SerializeField] private GameObject[] _skins;
     [SerializeField] private Animator[] _animators;
@@ -90,6 +93,12 @@ public class EnemyBase : PoolMember
             StopCoroutine(_coroutine);
             _coroutine = null;
         }
+    }
+
+    public void ApplyDamage(int value)
+    {
+        OnTakeDamage?.Invoke(value);
+        Debug.Log("TakeDamage");
     }
 
     private void Action_OnPlayerSearch(bool value)

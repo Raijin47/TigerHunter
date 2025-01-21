@@ -7,10 +7,16 @@ public class StateAttack : IState
     public event Action<IState> OnCannotAttack;
 
     private readonly EnemyBase Enemy;
-    private readonly WaitForSeconds IntervalAttack = new(1.5f);
-    private const float _attackDistance = 2.5f;
+    private readonly WaitForSeconds IntervalAttack = new(2f);
+    private readonly WaitForSeconds Delay = new(0.5f);
+    private const float _attackDistance = 3f;
+    private LayerMask _layer;
+    public StateAttack(EnemyBase enemy)
+    {
+        Enemy = enemy;
+        _layer = LayerMask.GetMask("Player");
+    }
 
-    public StateAttack(EnemyBase enemy) => Enemy = enemy;
     public void Enter()
     {
         Enemy.Animator.SetFloat("Velocity", 0);
@@ -21,11 +27,14 @@ public class StateAttack : IState
     {
         while(Vector3.Distance(Game.Locator.Player.transform.position, Enemy.Transform.position) < _attackDistance)
         {
-            Vector3 direction = Game.Locator.Player.transform.position - Enemy.Transform.position;
-            Quaternion targetRot = Quaternion.LookRotation(direction);
-            Enemy.Transform.rotation = Quaternion.Slerp(Enemy.Transform.rotation, targetRot, Time.deltaTime);
-
+            Enemy.Transform.LookAt(Game.Locator.Player.transform);
             Enemy.Animator.SetTrigger("Attack");
+
+            yield return Delay;
+
+            if (Physics.CheckSphere(Enemy.transform.position, 3.5f, _layer))
+                Game.Locator.Player.ApplyDamage(10);
+
             yield return IntervalAttack;
         }
 
